@@ -1,14 +1,13 @@
 use regex::Regex;
 /// Solves the first part of the puzzle by going through each line of the input and adding the
 /// two digit numbers to the result.
-pub fn solve(input: &Vec<String>) -> usize {
+pub fn solve(input: &Vec<String>) -> Result<usize, std::num::ParseIntError> {
     let mut result = 0;
     for line in input {
         let mut nums = "".to_string();
         for char in line.chars() {
             match char {
                 '0'..='9' => {
-                    dbg!(char);
                     nums.push(char);
                 }
                 _ => continue,
@@ -24,14 +23,9 @@ pub fn solve(input: &Vec<String>) -> usize {
             })
             .to_string()
             + &nums.chars().last().unwrap().to_string();
-        match num.parse::<usize>() {
-            Ok(n) => {
-                result += n;
-            }
-            Err(err) => println!("Error parsing number: {}", err),
-        };
+        result += num.parse::<usize>()?;
     }
-    result
+    Ok(result)
 }
 
 fn match_first_last(re_match: &str) -> &str {
@@ -66,7 +60,6 @@ pub fn solve2(input: &Vec<String>) -> usize {
         let first = re.find(line).unwrap().as_str();
         let rev_line = &line.chars().rev().collect::<String>();
         let last = re_rev.find(rev_line).unwrap().as_str();
-        dbg!(first, last, rev_line);
         let num = match_first_last(first).to_string() + match_first_last(last);
         match num.parse::<usize>() {
             Ok(n) => {
@@ -94,7 +87,7 @@ mod test {
     fn test_solve() {
         let test_input = vec!["123".to_string(), "456".to_string(), "789".to_string()];
         let result = solve(&test_input);
-        assert_eq!(result, 13 + 46 + 79);
+        assert_eq!(result, Ok(13 + 46 + 79));
     }
 
     #[test]
