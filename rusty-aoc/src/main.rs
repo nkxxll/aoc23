@@ -1,9 +1,20 @@
+use anyhow::Result;
+use clap::Parser;
 use std::fs;
 mod day1;
+mod day2;
 
-const DAY: usize = 1;
+/// Advent of Code 2023
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+struct Cli {
+    /// Day to run
+    day: u8,
+    /// Solution to run
+    solution: u8,
+}
 
-pub fn read_input(day: usize, test: Option<bool>) -> Vec<String> {
+pub fn read_input(day: u8, test: Option<bool>) -> Vec<String> {
     // read from input file
     let filename = match test {
         Some(true) => format!("./inputs/test_input{}.txt", day),
@@ -20,11 +31,32 @@ pub fn read_input(day: usize, test: Option<bool>) -> Vec<String> {
     contents
 }
 
-fn main() {
-    let test = Some(false);
-    let input = read_input(DAY, test);
-    let result = day1::solve2(&input);
-    println!("Result: {}", result);
+fn main() -> Result<()> {
+    let args = Cli::parse();
+    match (args.day, args.solution) {
+        (1, 1) => {
+            let input = read_input(1, Some(false));
+            let result = day1::solve(&input)?;
+            println!("Day 1 part 1: {}", result);
+        }
+        (1, 2) => {
+            let input = read_input(1, Some(false));
+            let result = day1::solve2(&input);
+            println!("Day 1 part 2: {}", result);
+        }
+        (2, 1) => {
+            let input = read_input(2, Some(false));
+            let result = day2::sum_valid_games(&input)?;
+            println!("Day 2 part 1: {}", result);
+        }
+        (2, 2) => {
+            let input = read_input(2, Some(false));
+            let result = day2::sum_powers_sets(&input)?;
+            println!("Day 2 part 2: {}", result);
+        }
+        (a, b) => println!("No solution for day {} part {}", a, b),
+    }
+    Ok(())
 }
 
 #[cfg(test)]
@@ -36,18 +68,18 @@ mod tests {
         let test = Some(true);
         match test {
             Some(true) => {
-                let input = read_input(DAY, test);
+                let input = read_input(1, test);
                 let result = day1::solve(&input);
-                assert_eq!(result, 142);
+                assert_eq!(result, Ok(142));
             }
             Some(false) | None => {
-                let test_input = read_input(DAY, Some(true));
+                let test_input = read_input(1, Some(true));
                 let test_result = day1::solve(&test_input);
-                let input = read_input(DAY, test);
+                let input = read_input(1, test);
                 let result = day1::solve(&input);
                 // check the test and the real result
-                assert_eq!(test_result, 142);
-                assert_eq!(result, 54927)
+                assert_eq!(test_result, Ok(142));
+                assert_eq!(result, Ok(54927))
             }
         }
     }
@@ -72,9 +104,9 @@ mod tests {
                 assert_eq!(result, 281);
             }
             Some(false) | None => {
-                let test_input = read_input(DAY, Some(true));
+                let test_input = read_input(1, Some(true));
                 let test_result = day1::solve2(&test_input);
-                let input = read_input(DAY, test);
+                let input = read_input(1, test);
                 let result = day1::solve2(&input);
                 // check the test and the real result
                 assert_eq!(test_result, 0);
