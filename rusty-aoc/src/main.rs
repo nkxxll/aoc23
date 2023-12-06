@@ -3,6 +3,7 @@ use clap::Parser;
 use std::fs;
 mod day1;
 mod day2;
+mod day3;
 
 /// Advent of Code 2023
 #[derive(Parser)]
@@ -52,6 +53,11 @@ fn main() -> Result<()> {
         (2, 2) => {
             let input = read_input(2, Some(false));
             let result = day2::sum_powers_sets(&input)?;
+            println!("Day 2 part 2: {}", result);
+        }
+        (3, 1) => {
+            let input = read_input(3, Some(false));
+            let result = day3::sum_adjacent_numbers(&input)?;
             println!("Day 2 part 2: {}", result);
         }
         (a, b) => println!("No solution for day {} part {}", a, b),
