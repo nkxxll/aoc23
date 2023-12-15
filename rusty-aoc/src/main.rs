@@ -4,6 +4,7 @@ use std::fs;
 mod day1;
 mod day2;
 mod day3;
+mod day8;
 
 /// Advent of Code 2023
 #[derive(Parser)]
@@ -59,6 +60,11 @@ fn main() -> Result<()> {
             let input = read_input(3, Some(false));
             let result = day3::sum_adjacent_numbers(&input)?;
             println!("Day 3 part 1: {}", result);
+        }
+        (8, 2) => {
+            let input = read_input(8, Some(false));
+            let result = day8::walk_like_a_ghost(&input)?;
+            println!("Day 8 part 2: {}", result);
         }
         (a, b) => println!("No solution for day {} part {}", a, b),
     }
