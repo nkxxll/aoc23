@@ -1,4 +1,4 @@
 (executables
- (public_names d1 d4 d6 d7)
- (names d1 d4 d6 d7)
+ (public_names d1 d4 d6 d7 d9)
+ (names d1 d4 d6 d7 d9)
  (libraries ocaml_aoc core))

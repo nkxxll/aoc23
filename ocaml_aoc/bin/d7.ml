@@ -86,11 +86,24 @@ let parse_cards_from_input input =
   aux [] input
 ;;
 
-let () =
-  read_input 7
+let process input name =
+  input
   |> parse_cards_from_input
   |> List.sort ~compare
   |> List.rev
   |> List.foldi ~f:(fun i acc hand -> acc + (hand.bid * (i + 1))) ~init:0
-  |> printf "Day 7 %d\n"
+  |> printf "%s %d\n" name
+;;
+
+let () =
+  let input = read_input_filename "test_input07_all_cards.txt" in
+  let sorted =
+    input |> parse_cards_from_input |> List.sort ~compare |> List.rev
+  in
+  List.iter sorted ~f:(fun x ->
+    printf "%s %d %d\n" (String.of_char_list x.cards) x.score x.bid);
+  sorted
+  |> List.foldi ~f:(fun i acc hand -> acc + (hand.bid * (i + 1))) ~init:0
+  |> printf "Day 7 %d\n";
+  process (read_input_filename "input07.txt") "Day 7 real"
 ;;
