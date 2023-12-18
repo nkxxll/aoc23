@@ -12,7 +12,7 @@ let is_zeros list =
 let get_next_list (list : int list) =
   let rec loop acc = function
     | [] -> acc
-    | [ x ] -> acc
+    | [ _ ] -> acc
     | h :: m :: t ->
       let tail = m :: t in
       (* don't know why this is not abs if we want the real diff *)
