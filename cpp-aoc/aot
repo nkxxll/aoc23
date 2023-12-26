@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-g++ -std=c++20 -O2 -Wall "./src/$1" -o "./bin/$(basename "$1" .cpp)" 
+g++ -std=c++20 -O2 -Wall "./src/$1" -o "./build/$(basename "$1" .cpp)" 
 
 # and execute the file with a input or a test input
 # replace the "day" with nothing and just get the number
 num=$(sed 's/[^0-9]*//g' <<< "$1")
-"./bin/$(basename "$1" .cpp)" < "./input/test_input$num.txt"
+"./build/$(basename "$1" .cpp)" < "./input/test_input$num.txt"
