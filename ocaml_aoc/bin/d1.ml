@@ -1,9 +1,7 @@
 open Core
 open Ocaml_aoc
 
-let print_lines lines =
-  List.iter lines ~f:(fun line -> print_endline line)
-;;
+let print_lines lines = List.iter lines ~f:(fun line -> print_endline line)
 
 let line_to_value line =
   let rec aux (acc : char list) (char_list : char list) =
